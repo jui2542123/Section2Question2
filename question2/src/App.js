@@ -4,11 +4,9 @@ import React, { useEffect, useState } from "react";
 function App() {
   const [allData, setData] = useState();
   const [filteredData, setFilteredData] = useState([]);
-  // Function to collect data
   const handleSearch = (event) => {
     let value = event.target.value;
     let result = [];
-    // result = allData.categories.map((val) => val.toLowerCase());
 
     result = allData.categories.filter((data) => {
       return data.toLowerCase().search(value.toLowerCase()) != -1;
