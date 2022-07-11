@@ -33,10 +33,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
+  
 }
 
-tr,td{
+tr{
+  border: 1px solid black;
+}
+td{
   border: 1px solid black;
 }
 

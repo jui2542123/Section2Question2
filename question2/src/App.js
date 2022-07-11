@@ -2,43 +2,49 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 
 function App() {
-  const [names, setName] = useState([]);
-  // let query = searchInput;
-  // if (!query) {
-  //   query = "";
-  // }
+  const [allData, setData] = useState();
+  const [filteredData, setFilteredData] = useState([]);
+  // Function to collect data
+  const handleSearch = (event) => {
+    let value = event.target.value;
+    let result = [];
+    // result = allData.categories.map((val) => val.toLowerCase());
 
-  const datas = async () => {
-    const response = await fetch("https://api.publicapis.org/categories");
-    // const check = await response.json();
-    // console.log(check);
-    setName(await response.json());
+    result = allData.categories.filter((data) => {
+      return data.toLowerCase().search(value.toLowerCase()) != -1;
+    });
+    setFilteredData(result);
+  };
+
+  const getApiData = async () => {
+    const response = await fetch("https://api.publicapis.org/categories").then(
+      (response) => response.json()
+    );
+
+    setData(response);
+    setFilteredData(response.categories);
   };
 
   useEffect(() => {
-    datas();
+    getApiData();
   }, []);
 
   return (
     <div className="App">
-      <form className="filter">
-        <input
-          type="text"
-          // value={filterInput}
-          // onChange={setSearchInput(e.target.value)}
-        />
-      </form>
+      <div id="search">
+        <input type="text" onChange={(event) => handleSearch(event)} />
+      </div>
       <div className="table">
         <table>
-          {names.categories.map((name) => (
-            <tr>
-              <td>{name}</td>
-            </tr>
-          ))}
+          {filteredData &&
+            filteredData.map((user) => (
+              <tr>
+                <td className="title">{user}</td>
+              </tr>
+            ))}
         </table>
       </div>
     </div>
   );
 }
-
 export default App;
